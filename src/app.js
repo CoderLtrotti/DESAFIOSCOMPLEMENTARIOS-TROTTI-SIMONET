@@ -1,7 +1,7 @@
 import express from 'express';
 import handlerbars from 'express-handlebars';
 import { create } from 'express-handlebars';
-
+import config from './config/config.js';
 import viewsRouter from './Routes/viewsRouter.js';
 import __dirname from './utils.js';
 import mongoose from 'mongoose';
@@ -47,8 +47,8 @@ app.use(express.json());
 
 
 
-
-mongoose.connect('mongodb+srv://CoderLtrotti:TGtIEtoEcViniEQZ@codercluster.lbz1fl7.mongodb.net/?retryWrites=true&w=majority', {
+            //DB conection usando config archivo.env
+mongoose.connect(config.dbConnectionString, { 
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -166,13 +166,13 @@ const newProduct = new Product({
       session({
         store: MongoStore.create({
           mongoUrl:
-            'mongodb+srv://CoderLtrotti:TGtIEtoEcViniEQZ@codercluster.lbz1fl7.mongodb.net/?retryWrites=true&w=majority',
+            config.dbConnectionString, // DB conection usando config archivo.env
           mongoOptions: {
             useNewUrlParser: true,
           },
           ttl: 15,
         }),
-        secret: '124',
+        secret: config.sessionSecret, //aqui la session secret usando config archivo.env
         resave: true,
         saveUninitialized: true,
       })

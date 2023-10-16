@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
 
-const privateKey = 'privatekey';
+const privateKey = config.secretKey;
 
 export const generateToken = (user) => {
     return jwt.sign(user, privateKey, { expiresIn: '1m' });
