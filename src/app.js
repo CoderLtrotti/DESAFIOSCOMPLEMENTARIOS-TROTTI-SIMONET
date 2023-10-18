@@ -47,7 +47,8 @@ app.use(express.json());
 
 
             //DB conection usando config archivo.env
-mongoose.connect(config.dbConnectionString, { 
+
+            mongoose.connect(config.dbConnectionString, { 
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
