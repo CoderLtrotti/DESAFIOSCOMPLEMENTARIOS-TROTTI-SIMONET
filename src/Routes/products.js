@@ -2,6 +2,7 @@ import express from 'express';
 import ContenedorManager from '../dao/ContenedorManager.js';
 import { Router } from 'express';
 
+
 const Productrouter = Router();
 
 // Initialize the product manager
@@ -16,6 +17,8 @@ Productrouter.get('/', async (req, res) => {
     res.status(500).json({ error: 'Error retrieving products.' });
   }
 });
+
+
 
 Productrouter.get('/:id', async (req, res) => {
   try {

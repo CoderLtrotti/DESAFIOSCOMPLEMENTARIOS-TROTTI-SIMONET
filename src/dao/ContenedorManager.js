@@ -75,6 +75,7 @@ class ContenedorManager {
       }
     }
   
+    
     async updateProduct(productId, updates) {
       try {
         const updatedProduct = await this.Product.findByIdAndUpdate(

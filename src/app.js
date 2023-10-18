@@ -7,7 +7,7 @@ import __dirname from './utils.js';
 import mongoose from 'mongoose';
 import ContenedorManager from './dao/ContenedorManager.js';
 import CartManager from './dao/cartsManajer.js';
-import MessageManager from './dao/messajeManager.js';
+
 import Product from './dao/models/product.js';
 import Cart from './dao/models/cart.js';
 import router from './Routes/cartRouter.js'
@@ -32,7 +32,6 @@ import bodyParser from 'body-parser';
 const app = express();
 const contenedorManager = new ContenedorManager();
 const cartManager = new CartManager();
-const messageManager = new MessageManager();
 
 const cart = new Cart();
 
@@ -61,7 +60,7 @@ mongoose.connect(config.dbConnectionString, {
  
 // Configurar la carpeta de vistas y el motor de plantillas
 app.engine('handlebars', handlerbars.engine());
-app.set('views', 'views/');
+app.set('views', 'src/views');
 /*app.set('views', '../views/');*/ //ruta alternativa para utilizar con node app.js
 app.set('view engine', 'handlebars');
 const hbs = create({
@@ -80,13 +79,6 @@ app.use('/api/cart', router);
 
 app.use('/api1/products', Productrouter);
 
-const newProduct = new Product({
-  name: 'Producto de ejemplo',
-  price: 29.99,
-  description: 'Este es un producto de ejemplo',
-  category: 'Electrónica',
-  availability: true,
-});
 
   // Actualizar la cantidad de ejemplares
     app.get('/products', async (req, res) => {

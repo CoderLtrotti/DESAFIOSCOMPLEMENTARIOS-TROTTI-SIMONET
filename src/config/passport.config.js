@@ -1,7 +1,7 @@
 import passport from 'passport';
 import GitHubStrategy from 'passport-github2';
 import { Strategy as LocalStrategy } from 'passport-local'; // Agrega la importación de LocalStrategy
-import userService from '../dao/user.service.js';
+import userService from '../services/user.service.js';
 import { hashPassword, comparePassword } from '../utils/encript.js';
 import crypto from 'crypto';
 
