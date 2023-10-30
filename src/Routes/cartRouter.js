@@ -24,6 +24,8 @@ router.post('/:cid/:productId', cartManager.addProduct);
 router.post('/', cartManager.createCart);
  
 router.delete('/:cid', cartManager.clearCart);
+
+router.post('/:cid/purchase', cartManager.purchaseCart); 
 //RUTA PARA ELIMINAR EL CARRITO DE LA BASE DE DATOS , SE DEBE COMENTAR CLEAR CAR
 //*router.delete('/:cartId', cartManager.deleteCartById);/*
 

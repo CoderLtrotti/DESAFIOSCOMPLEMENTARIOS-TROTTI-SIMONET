@@ -23,7 +23,10 @@ import passport from 'passport';
 
 import sessionsRouter from './Routes/sessions.router.js';
 import bodyParser from 'body-parser';
-
+import usersRouter from './Routes/user.router.js'
+import businessRouter from './Routes/business.router.js'
+import ordersRouter from './Routes/orders.router.js'
+import cors from "cors"
 
 
 
@@ -40,10 +43,7 @@ const cart = new Cart();
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
-
-
-
-
+app.use(cors({ origin: 'http://localhost:8080', methods: ["GET", "POST", "PUT"] }))
 
 
             //DB conection usando config archivo.env
@@ -77,7 +77,9 @@ app.set('view engine', 'handlebars');
 
 
 app.use('/api/cart', router);
-
+app.use('/api/usersRouter', usersRouter)
+app.use("/api/business", businessRouter)
+app.use("/api/orders", ordersRouter)
 app.use('/api1/products', Productrouter);
 
 app.use('/products', productRoutes);

@@ -1,9 +1,11 @@
 import { hashPassword, comparePassword } from '../utils/encript.js';
 import userService from '../services/user.service.js';
 import CartManager from '../dao/cartsManajer.js';
+import User from "../dao/classes/user.dao.js"
 import { Router } from 'express';
 
 const cartManager = new CartManager();
+const usersService = new User(); 
 
 class UsersController {
   async createUser(req, res) {
@@ -77,7 +79,7 @@ class UsersController {
   }
 
 
-async getUserById(req, res) {
+async getsUserById(req, res) {
     const userId = req.params.id;
 
     try {
@@ -116,4 +118,43 @@ async getUserById(req, res) {
 
 }
 
+async function getUserById(req, res) {
+  const userId = req.params.uid;
+
+  try {
+    let user = await usersService.getUserById(userId);
+    if (!user) {
+        res.status(404).json({ error: 'Usuario no encontrado' });
+        return;
+    }
+
+    // Eliminar la contraseña antes de enviar la respuesta
+    const userWithoutPassword = { ...user.toObject(), password: undefined };
+    res.status(200).json({ status: "success", result: userWithoutPassword });
+  } catch (error) {
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+}
+
+export const getUsers = async (req, res) => {
+    try {
+        let result = await usersService.getUsers()
+        res.status(200).json({ status: "success", result: result });
+    } catch (error) {
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+};
+
+export const saveUser = async (req, res) => {
+    const userData = { ...req.body, password: hashPassword(req.body.password) };
+
+    try {
+        let result = await usersService.saveUser(userData);
+        res.status(201).json({ status: "success", result: result });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
+export { getUserById };
 export default new UsersController();
