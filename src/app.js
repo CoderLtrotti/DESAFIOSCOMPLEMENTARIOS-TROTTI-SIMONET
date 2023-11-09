@@ -32,7 +32,7 @@ import sessionRoutes from './Routes/passportrouter.js';
 import mockRoutes from './Routes/mockRoutes.js';
 
 import githubRouter from './Routes/github.router.js';
-
+import handleError from './utils/errorHandler.js';
 const app = express();
 const contenedorManager = new ContenedorManager();
 const cartManager = new CartManager();
@@ -58,7 +58,7 @@ app.use(cors({ origin: 'http://localhost:8080', methods: ["GET", "POST", "PUT"] 
   .catch(error => {
     console.error('Error connecting to MongoDB:', error.message);
   });
- 
+
 // Configurar la carpeta de vistas y el motor de plantillas
 app.engine('handlebars', handlerbars.engine());
 app.set('views', 'src/views');
@@ -83,6 +83,8 @@ app.use("/api/orders", ordersRouter)
 app.use('/api1/products', Productrouter);
 app.use('/api', mockRoutes);
 app.use('/products', productRoutes);
+
+
 
 app.use('/cart', cartsrouter);
   // Actualizar la cantidad de ejemplares
@@ -118,6 +120,17 @@ app.use('/cookies', cookieRouter);
 app.use('/',viewsRouter);
 app.use('/api/users', userRouter);
 
+// Manejo de errores
+app.use((req, res, next) => {
+  const error = new Error('Not Found');
+  error.status = 404;
+  next(error);
+});
+
+// Utiliza el manejador de errores definido
+app.use((error, req, res, next) => {
+  handleError(res, error);
+});
 
 // Usar el enrutador de vistas
 app.use('/', viewsRouter);

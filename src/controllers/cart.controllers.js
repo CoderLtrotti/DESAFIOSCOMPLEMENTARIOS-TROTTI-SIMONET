@@ -1,4 +1,6 @@
 import CartManager from '../dao/cartsManajer.js'; // Asegúrate de que la ruta sea correcta
+import { CustomError, BadRequestError, NotFoundError, errorDictionary } from '../utils/customErrors.js';
+import handleError from '../utils/errorHandler.js';
 
 const cartManager = new CartManager();
 
@@ -13,7 +15,7 @@ class CartController {
       console.log('Carrito recuperado:', cart);
       res.render('cart-details', { cartItems: cart.products });
     } catch (error) {
-      res.status(500).json({ status: 'error', message: 'Internal server error' });
+      handleError(res, error);
     }
   }
 
@@ -23,8 +25,7 @@ class CartController {
       console.log('Nuevo carrito creado:', cart);
       res.json({ status: 'success', message: 'Cart created successfully' });
     } catch (error) {
-      console.error('Error al crear un carrito:', error);
-      res.status(500).json({ status: 'error', message: 'Internal server error' });
+      handleError(res, error);
     }
   }
 
@@ -35,7 +36,7 @@ class CartController {
       await cartManager.addProduct(cid, product);
       res.json({ status: 'success', message: 'Product added to cart successfully' });
     } catch (error) {
-      res.status(500).json({ status: 'error', message: 'Internal server error' });
+      handleError(res, error);
     }
   }
 
@@ -45,7 +46,7 @@ class CartController {
       await cartManager.removeProduct(cid, pid);
       res.json({ status: 'success', message: 'Product removed from cart' });
     } catch (error) {
-      res.status(500).json({ status: 'error', message: 'Internal server error' });
+      handleError(res, error);
     }
   }
 
@@ -56,7 +57,7 @@ class CartController {
       await cartManager.updateCart(cid, products);
       res.json({ status: 'success', message: 'Cart updated successfully' });
     } catch (error) {
-      res.status(500).json({ status: 'error', message: 'Internal server error' });
+      handleError(res, error);
     }
   }
 
@@ -67,7 +68,7 @@ class CartController {
       await cartManager.updateProductQuantity(cid, pid, quantity);
       res.json({ status: 'success', message: 'Product quantity updated successfully' });
     } catch (error) {
-      res.status(500).json({ status: 'error', message: 'Internal server error' });
+      handleError(res, error);
     }
   }
 
@@ -77,7 +78,7 @@ class CartController {
       await cartManager.clearCart(cid);
       res.json({ status: 'success', message: 'Cart cleared successfully' });
     } catch (error) {
-      res.status(500).json({ status: 'error', message: 'Internal server error' });
+      handleError(res, error);
     }
   }
 
@@ -91,7 +92,7 @@ class CartController {
         productsNotPurchased,
       });
     } catch (error) {
-      res.status(500).json({ status: 'error', message: 'Internal server error' });
+      handleError(res, error);
     }
   }
 }

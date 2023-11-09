@@ -5,24 +5,25 @@ const Productrouter = Router();
 
 // Define las rutas utilizando las funciones de la clase ProductsController
 Productrouter.get('/', async (req, res) => {
-  await ProductsController.getAllProducts(req, res);
+  await ProductsController.getAllProducts(req, res).catch((error) => ProductsController.handleError(res, error));
 });
 
 Productrouter.get('/:id', async (req, res) => {
-  await ProductsController.getProductById(req, res);
+  await ProductsController.getProductById(req, res).catch((error) => ProductsController.handleError(res, error));
 });
 
 Productrouter.post('/', async (req, res) => {
-  await ProductsController.createProduct(req, res);
+  await ProductsController.createProduct(req, res).catch((error) => ProductsController.handleError(res, error));
 });
 
 Productrouter.put('/:id', async (req, res) => {
-  await ProductsController.updateProduct(req, res);
+  await ProductsController.updateProduct(req, res).catch((error) => ProductsController.handleError(res, error));
 });
 
 Productrouter.delete('/:id', async (req, res) => {
-  await ProductsController.deleteProduct(req, res);
+  await ProductsController.deleteProduct(req, res).catch((error) => ProductsController.handleError(res, error));
 });
+
 
 export default Productrouter;
 
