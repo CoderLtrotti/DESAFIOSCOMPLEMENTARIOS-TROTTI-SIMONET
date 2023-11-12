@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 import ContenedorManager from './dao/ContenedorManager.js';
 import CartManager from './dao/cartsManajer.js';
 import productRoutes from './Routes/routerpaginacion.js';
-import Product from './dao/models/product.js';
+import loggerRouter from './Routes/loggerRouter.js';
 import Cart from './dao/models/cart.js';
 import router from './Routes/cartRouter.js'
 import Productrouter from './Routes/products.js';
@@ -33,14 +33,14 @@ import mockRoutes from './Routes/mockRoutes.js';
 
 import githubRouter from './Routes/github.router.js';
 import handleError from './utils/errorHandler.js';
+
+
+
+
 const app = express();
 const contenedorManager = new ContenedorManager();
 const cartManager = new CartManager();
-
 const cart = new Cart();
-
- 
-
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
@@ -84,7 +84,7 @@ app.use('/api1/products', Productrouter);
 app.use('/api', mockRoutes);
 app.use('/products', productRoutes);
 
-
+app.use('/api', loggerRouter);
 
 app.use('/cart', cartsrouter);
   // Actualizar la cantidad de ejemplares
