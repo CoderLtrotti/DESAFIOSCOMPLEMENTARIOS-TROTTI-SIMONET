@@ -21,8 +21,14 @@ const productSchema = new mongoose.Schema({
   availability: {
     type: Boolean,
     required: true,
-  }
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
 });
+
+
 
 const Product = mongoose.model('Product', productSchema);
 

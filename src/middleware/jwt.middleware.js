@@ -4,7 +4,7 @@ import passport from 'passport';
 const privateKey = config.secretKey;
 
 export const generateToken = (user) => {
-    return jwt.sign(user, privateKey, { expiresIn: '1m' });
+    return jwt.sign(user, privateKey, { expiresIn: '1h' });
   };
   
 export const authToken = (req, res, next) => {

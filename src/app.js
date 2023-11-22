@@ -131,7 +131,7 @@ app.use((req, res, next) => {
 app.use((error, req, res, next) => {
   handleError(res, error);
 });
-
+app.use('/password', passwordRoutes);
 // Usar el enrutador de vistas
 app.use('/', viewsRouter);
 app.use('/login', loginrouter);
@@ -139,3 +139,4 @@ const webServer = app.listen(8080, () => {
   console.log('Escuchando 8080');
 });
 
+import passwordRoutes from './Routes/passwordRoutes.js';
