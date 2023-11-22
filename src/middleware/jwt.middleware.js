@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
-import passport from 'passport';
-
+import config from '../config/config.js';
 const privateKey = config.secretKey;
 
 export const generateToken = (user) => {

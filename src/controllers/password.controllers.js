@@ -1,4 +1,4 @@
-import userModel from '../models/userModel.js';
+import userModel from '../dao/models/users.model.js'
 import { generateToken } from '../middleware/jwt.middleware.js';
 import { sendPasswordResetEmail } from '../utils/sendPasswordResetEmail.js';
 
