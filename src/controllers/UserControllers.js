@@ -116,25 +116,96 @@ async getsUserById(req, res) {
     }
   }
 
-}
 
-async function getUserById(req, res) {
-  const userId = req.params.uid;
+async upgradeToPremium(req, res) {
+  const userId = req.params.id;
 
   try {
-    let user = await usersService.getUserById(userId);
-    if (!user) {
-        res.status(404).json({ error: 'Usuario no encontrado' });
-        return;
+    const updatedUser = await userService.upgradeUserToPremium(userId);
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
     }
 
-    // Eliminar la contraseña antes de enviar la respuesta
-    const userWithoutPassword = { ...user.toObject(), password: undefined };
-    res.status(200).json({ status: "success", result: userWithoutPassword });
+    res.status(200).json({ message: 'Usuario actualizado a premium', user: updatedUser });
   } catch (error) {
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 }
+
+async requestPasswordReset(req, res) {
+  const { email } = req.body;
+
+  try {
+    const user = await userService.getByEmail(email);
+
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    const resetToken = generateToken({ email }, '1h');
+    // Almacena resetToken y su expiración en la base de datos para el usuario
+
+    // Envía el correo electrónico con el token de restablecimiento
+    sendPasswordResetEmail(user.email, resetToken);
+
+    res.json({ message: 'Se ha enviado un enlace de restablecimiento a tu correo electrónico.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+}
+
+async handlePasswordReset(req, res) {
+  const { token } = req.params;
+  const { newPassword } = req.body;
+
+  try {
+    const user = await userService.getByResetToken(token);
+
+    if (!user || user.resetTokenExpiration < new Date()) {
+      return res.status(400).json({ error: 'Enlace de restablecimiento no válido o expirado.' });
+    }
+
+    if (comparePassword(newPassword, user.password)) {
+      return res.status(400).json({ error: 'La nueva contraseña no puede ser igual a la actual.' });
+    }
+
+    user.password = hashPassword(newPassword);
+    user.resetToken = undefined;
+    user.resetTokenExpiration = undefined;
+    await user.save();
+
+    // Redirige a la página de confirmación después de restablecer la contraseña
+    res.redirect('/reset-confirmation');
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+}
+
+// Ruta para renderizar la página cuando el token ha expirado
+renderResetPasswordExpired(req, res) {
+  res.render('resetPasswordExpired'); // Ajusta el nombre de la vista según tus archivos
+}
+
+// Ruta para renderizar la página cuando el token es inválido
+renderResetPasswordInvalid(req, res) {
+  res.render('resetPasswordInvalid'); // Ajusta el nombre de la vista según tus archivos
+}
+
+// Ruta para renderizar la página de confirmación de restablecimiento de contraseña
+renderResetConfirmation(req, res) {
+  res.render('resetConfirmation'); // Ajusta el nombre de la vista según tus archivos
+}
+
+// Ruta para renderizar el formulario de solicitud de restablecimiento de contraseña
+renderResetPasswordForm(req, res) {
+  res.render('resetPasswordForm'); // Ajusta el nombre de la vista según tus archivos
+}
+}
+
+
 
 export const getUsers = async (req, res) => {
     try {
@@ -156,5 +227,8 @@ export const saveUser = async (req, res) => {
     }
 };
 
-export { getUserById };
+
+
+
+
 export default new UsersController();

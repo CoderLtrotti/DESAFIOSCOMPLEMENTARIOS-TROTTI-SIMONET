@@ -121,10 +121,22 @@ app.use('/',viewsRouter);
 app.use('/api/users', userRouter);
 
 // Manejo de errores
-app.use((req, res, next) => {
-  const error = new Error('Not Found');
-  error.status = 404;
-  next(error);
+app.use((error, req, res, next) => {
+
+  if (error) {
+
+        const error = new Error("Not Found");
+
+        error.status = 404;
+
+        next(error);
+
+  } else {
+
+        next();
+
+  }
+
 });
 
 // Utiliza el manejador de errores definido
