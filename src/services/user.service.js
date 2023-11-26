@@ -16,6 +16,21 @@ class UserService {
     async createUser(userData) {
       return await this.model.create(userData);
     }
+
+    async upgradeUserToPremium(userId) {
+      try {
+        const updatedUser = await userModel.findByIdAndUpdate(
+          userId,
+          { $set: { role: 'premium' } },
+          { new: true }
+        );
+  
+        return updatedUser;
+      } catch (error) {
+        throw new Error('Error al actualizar el usuario a premium');
+      }
+    }
+  
   }
   
   const userService = new UserService();
