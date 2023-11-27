@@ -19,17 +19,25 @@ class UserService {
 
     async upgradeUserToPremium(userId) {
       try {
-        const updatedUser = await userModel.findByIdAndUpdate(
-          userId,
-          { $set: { role: 'premium' } },
-          { new: true }
-        );
+        const user = await this.model.findById(userId);
   
+        if (!user) {
+          return null; // Usuario no encontrado
+        }
+  
+        if (user.role === 'user') {
+          user.role = 'premium';
+        } else if (user.role === 'premium') {
+          user.role = 'user';
+        }
+  
+        const updatedUser = await user.save();
         return updatedUser;
       } catch (error) {
         throw new Error('Error al actualizar el usuario a premium');
       }
     }
+  
   
   }
   

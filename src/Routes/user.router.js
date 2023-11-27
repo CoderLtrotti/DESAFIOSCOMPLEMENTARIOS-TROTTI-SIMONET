@@ -25,6 +25,7 @@ usersRouter.get('/reset-password', UsersController.renderResetPasswordForm); // 
 usersRouter.post('/reset-password/:token', UsersController.handlePasswordReset); // Manejo de restablecimiento
 usersRouter.get('/reset-password-invalid', UsersController.renderResetPasswordInvalid); // Token inválido
 usersRouter.get('/reset-confirmation', UsersController.renderResetConfirmation); // Confirmación
+usersRouter.put('/:id/upgrade-to-premium', UsersController.upgradeToPremium);
 export default usersRouter;
 
 /*import { Router } from 'express'

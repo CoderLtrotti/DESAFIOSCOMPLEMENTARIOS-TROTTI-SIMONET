@@ -3,6 +3,7 @@ import userService from '../services/user.service.js';
 import CartManager from '../dao/cartsManajer.js';
 import User from "../dao/classes/user.dao.js"
 import userModel from '../dao/models/users.model.js'
+import { sendPasswordResetEmail } from '../utils/sendPasswordResetEmail.js';
 
 const cartManager = new CartManager();
 const usersService = new User(); 
