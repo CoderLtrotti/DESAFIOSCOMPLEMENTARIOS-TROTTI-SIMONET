@@ -3,10 +3,15 @@ import config from './config/config.js';
 
 export const sendPasswordResetEmail = (email, resetToken) => {
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: "smtp.gmail.com",
+    port: 587,
     auth: {
       user: config.emailUser,
       pass: config.emailPassword,
+    },
+    secure: false,
+    tls: {
+    rejectUnauthorized: false,
     },
   });
 

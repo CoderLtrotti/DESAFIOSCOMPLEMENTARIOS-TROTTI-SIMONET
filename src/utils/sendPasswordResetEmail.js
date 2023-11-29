@@ -3,7 +3,7 @@ import config from '../config/config.js';
 
 
 
-export const sendPasswordResetEmail = (email, resetToken) => {
+export const sendPasswordResetEmail = async (email, resetToken) => {
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
@@ -13,7 +13,7 @@ export const sendPasswordResetEmail = (email, resetToken) => {
     },
     secure: false,
     tls: {
-    rejectUnauthorized: false,
+      rejectUnauthorized: false,
     },
   });
 
@@ -24,13 +24,13 @@ export const sendPasswordResetEmail = (email, resetToken) => {
     text: `Haz clic en el siguiente enlace para restablecer tu contraseña: ${resetToken}`,
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error('Error al enviar el correo electrónico:', error);
-      // Puedes lanzar el error o manejarlo de alguna otra manera
-    } else {
-      console.log('Correo electrónico enviado:', info.response);
-    }
-  });
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Correo electrónico enviado:', info.response);
+    return info; // Puedes devolver información adicional si lo necesitas
+  } catch (error) {
+    console.error('Error al enviar el correo electrónico:', error);
+    throw error; // Lanza el error para que pueda ser manejado en el contexto superior
+  }
 };
 
