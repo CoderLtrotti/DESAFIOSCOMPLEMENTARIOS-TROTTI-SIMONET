@@ -2,6 +2,92 @@ import { Router } from 'express';
 import ProductsController from '../controllers/products.controllers.js';
 
 const Productrouter = Router();
+/**
+ * @swagger
+ * tags:
+ *   name: Products
+ *   description: Operaciones relacionadas con productos
+ */
+
+/**
+ * @swagger
+ * /api1/products:
+ *   get:
+ *     summary: Obtener todos los productos.
+ *     description: Retorna todos los productos disponibles.
+ *     tags: [Products]
+ *     responses:
+ *       200:
+ *         description: Operación exitosa.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Lista de productos obtenida con éxito.
+ *               data:
+ *                 products: [...]
+ */
+
+/**
+ * @swagger
+ * /api1/products/{id}:
+ *   get:
+ *     summary: Obtener un producto por ID.
+ *     description: Retorna un producto según su ID.
+ *     tags: [Products]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         description: ID del producto.
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Operación exitosa.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Producto obtenido con éxito.
+ *               data:
+ *                 product: {...}
+ *       404:
+ *         description: Producto no encontrado.
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Producto no encontrado.
+ */
+
+/**
+ * @swagger
+ * /api1/products:
+ *   post:
+ *     summary: Crear un nuevo producto.
+ *     description: Crea un nuevo producto.
+ *     tags: [Products]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           example:
+ *             name: "Nuevo Producto"
+ *             price: 10.99
+ *     responses:
+ *       201:
+ *         description: Producto creado con éxito.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Producto creado con éxito.
+ *               data:
+ *                 product: {...}
+ *       400:
+ *         description: Datos de producto no válidos.
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Datos de producto no válidos.
+ */
 
 // Define las rutas utilizando las funciones de la clase ProductsController
 Productrouter.get('/', async (req, res) => {

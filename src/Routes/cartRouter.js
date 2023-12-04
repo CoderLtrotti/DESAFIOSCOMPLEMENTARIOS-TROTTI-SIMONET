@@ -4,10 +4,65 @@ import { checkRoles } from '../middleware/checkroles.middleware.js';
 import { isAuth } from '../middleware/auth.middleware.js';
 
 
-
 const router = Router();
 const cartController = new CartController();
+/**
+ * @swagger
+ * tags:
+ *   name: Cart
+ *   description: Operaciones relacionadas con el carrito de compras
+ */
 
+/**
+ * @swagger
+ * /api/cart:
+ *   post:
+ *     summary: Crear un nuevo carrito.
+ *     description: Crea un nuevo carrito para un usuario.
+ *     tags: [Cart]
+ *     responses:
+ *       201:
+ *         description: Carrito creado con éxito.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Carrito creado con éxito.
+ *               data:
+ *                 cart: {...}
+ */
+
+/**
+ * @swagger
+ * /api/cart/{id}:
+ *   get:
+ *     summary: Obtener un carrito por ID.
+ *     description: Retorna un carrito según su ID.
+ *     tags: [Cart]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         description: ID del carrito.
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Operación exitosa.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Carrito obtenido con éxito.
+ *               data:
+ *                 cart: {...}
+ *       404:
+ *         description: Carrito no encontrado.
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Carrito no encontrado.
+ */
+
+// ... (Agrega comentarios para otras rutas según sea necesario)
 // DELETE /api/carts/:cid/products/:pid - Remove a product from the cart
 // DELETE /api/carts/:cid/products/:pid - Remove a product from the cart
 router.delete('/:cid/:productId/:pid', (req, res) => {
