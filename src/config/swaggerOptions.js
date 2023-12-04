@@ -1,4 +1,8 @@
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import path from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const swaggerOptions = {
   definition: {
@@ -16,5 +20,6 @@ const swaggerOptions = {
   },
   apis: [path.resolve(__dirname, '../routes/*.js')], // Ajusta la ruta según tu estructura
 };
+
 
 export default swaggerOptions;
