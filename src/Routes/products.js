@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import ProductsController from '../controllers/products.controllers.js';
+import getProducts from '../dao/productspaginacion.js';
 
 const Productrouter = Router();
 /**
@@ -110,6 +111,7 @@ Productrouter.delete('/:id', async (req, res) => {
   await ProductsController.deleteProduct(req, res).catch((error) => ProductsController.handleError(res, error));
 });
 
+Productrouter.get('/', getProducts);
 
 export default Productrouter;
 

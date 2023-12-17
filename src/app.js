@@ -82,11 +82,11 @@ app.use("/api/business", businessRouter)
 app.use("/api/orders", ordersRouter)
 app.use('/api1/products', Productrouter);
 app.use('/api', mockRoutes);
-app.use('/products', productRoutes);
+
 
 app.use('/api', loggerRouter);
 
-app.use('/cart', cartsrouter);
+
   // Actualizar la cantidad de ejemplares
 
     app.use(bodyParser.urlencoded({ extended: true }));
