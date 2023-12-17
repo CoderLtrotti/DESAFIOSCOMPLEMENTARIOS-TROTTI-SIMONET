@@ -7,7 +7,7 @@ import __dirname from './utils.js';
 import mongoose from 'mongoose';
 import ContenedorManager from './dao/ContenedorManager.js';
 import CartManager from './dao/cartsManajer.js';
-import productRoutes from './Routes/routerpaginacion.js';
+
 import loggerRouter from './Routes/loggerRouter.js';
 import Cart from './dao/models/cart.js';
 import router from './Routes/cartRouter.js'
@@ -27,8 +27,8 @@ import usersRouter from './Routes/user.router.js'
 import businessRouter from './Routes/business.router.js'
 import ordersRouter from './Routes/orders.router.js'
 import cors from "cors"
-import cartsrouter from './Routes/cartsrouter.js';
-import sessionRoutes from './Routes/passportrouter.js';
+
+
 import mockRoutes from './Routes/mockRoutes.js';
 
 import githubRouter from './Routes/github.router.js';
@@ -111,7 +111,7 @@ app.use('/api', loggerRouter);
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api/sessions', sessionRoutes);
+
 app.use('/', viewsRouter);
 //Middleware cookies
 app.use('/api/sessions/github', githubRouter);
