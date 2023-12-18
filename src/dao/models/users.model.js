@@ -29,7 +29,20 @@ const userSchema = new mongoose.Schema({
   ],
   resetToken: String,
   resetTokenExpiration: Date,
+  documents: [{name: String,
+      reference: String,},
+  ],
+  last_connection: Date,
 });
+
+
+
+
+
+
+
+
+  
 
 
   const userModel = mongoose.model('users', userSchema);

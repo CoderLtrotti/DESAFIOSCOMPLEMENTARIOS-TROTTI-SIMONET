@@ -4,7 +4,7 @@ import CartManager from '../dao/cartsManajer.js';
 import User from "../dao/classes/user.dao.js"
 import userModel from '../dao/models/users.model.js'
 import { sendPasswordResetEmail } from '../utils/sendPasswordResetEmail.js';
-
+import upload from '../utils/multerConfig.js';
 const cartManager = new CartManager();
 const usersService = new User(); 
 
@@ -122,17 +122,26 @@ async upgradeToPremium(req, res) {
   const userId = req.params.id;
 
   try {
-    const updatedUser = await userService.upgradeUserToPremium(userId);
+    const user = await userService.model.findById(userId);
 
-    if (!updatedUser) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
+    // Verificar si el usuario ha cargado los documentos necesarios
+    const requiredDocuments = ['identificacion',];
+    const hasRequiredDocuments = requiredDocuments.every(doc => user.documents.some(d => d.name === doc));
+
+    if (!hasRequiredDocuments) {
+      return res.status(400).json({ error: 'El usuario debe cargar los documentos requeridos para actualizar a premium.' });
     }
 
-    res.status(200).json({ message: 'Usuario actualizado a premium', user: updatedUser });
+    // Actualizar a premium si los documentos requeridos están cargados
+    user.role = 'premium';
+    await user.save();
+
+    res.status(200).json({ message: 'Usuario actualizado a premium', user: user });
   } catch (error) {
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 }
+
 
 async requestPasswordReset(req, res) {
   const { email } = req.body;
@@ -185,6 +194,42 @@ async handlePasswordReset(req, res) {
   }
 }
 
+async uploadDocuments(req, res) {
+  const userId = req.params.uid;
+
+  try {
+    const user = await userService.model.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    // Procesa los archivos cargados y actualiza el usuario con la información del documento
+    upload.array('documents')(req, res, async (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Error al cargar los documentos' });
+      }
+
+      for (const file of req.files) {
+        const document = {
+          name: file.originalname,
+          reference: `/uploads/documents/${file.filename}`,
+        };
+
+        user.documents.push(document);
+      }
+
+      // Guarda los cambios en el usuario
+      await user.save();
+
+      res.status(200).json({ message: 'Documentos cargados exitosamente', user: user });
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+}
 // Ruta para renderizar la página cuando el token ha expirado
 renderResetPasswordExpired(req, res) {
   res.render('resetPasswordExpired'); // Ajusta el nombre de la vista según tus archivos

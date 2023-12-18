@@ -18,7 +18,7 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import userRouter from './Routes/user.router.js';
 import initializePassport from './config/passport.config.js';
-import passport from 'passport';
+import passport from 'passport'; 
 
 import loginrouter from './Routes/loginroutes.js';
 import sessionsRouter from './Routes/sessions.router.js';
@@ -29,8 +29,8 @@ import ordersRouter from './Routes/orders.router.js'
 import cors from "cors"
 
 
-import mockRoutes from './Routes/mockRoutes.js';
-
+import mockRoutes from './Routes/mockRoutes.js'; 
+import upload from './utils/multerConfig.js'
 import githubRouter from './Routes/github.router.js';
 import handleError from './utils/errorHandler.js';
 
@@ -82,7 +82,7 @@ app.use("/api/business", businessRouter)
 app.use("/api/orders", ordersRouter)
 app.use('/api1/products', Productrouter);
 app.use('/api', mockRoutes);
-
+app.use('/api/users', upload.array('documents'), usersRouter);
 
 app.use('/api', loggerRouter);
 
