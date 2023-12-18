@@ -1,8 +1,8 @@
 // products.test.mjs
 import supertest from 'supertest';
 import chai from 'chai';
-import app from '../../app.js'; 
-import productrouter from '../../Routes/products.js';
+import app from '../app.js'; 
+import productrouter from '../Routes/products.js';
 
 const { expect } = chai;
 const request = supertest(app);

@@ -1,8 +1,8 @@
 // cartRouter.test.mjs
 import supertest from 'supertest';
 import chai from 'chai';
-import app from '../../app.js'; 
-import router from '../../Routes/cartRouter.js'; 
+import app from '../app.js'; 
+import router from '../Routes/cartRouter.js'; 
 
 const { expect } = chai;
 const request = supertest(app);

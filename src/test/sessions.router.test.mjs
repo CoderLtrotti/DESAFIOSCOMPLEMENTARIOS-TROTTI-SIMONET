@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 import chai from 'chai';
-import app from '../../app.js'; 
-import sessionRouter from '../../Routes/sessions.router.js'; 
+import app from '../app.js'; 
+import sessionRouter from '../Routes/sessions.router.js'; 
 
 const { expect } = chai;
 const request = supertest(app);

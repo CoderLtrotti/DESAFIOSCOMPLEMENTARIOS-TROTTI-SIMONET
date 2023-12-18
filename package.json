@@ -4,7 +4,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --timeout 5000 tests/**/*.js",
+    "test": "mocha --timeout 5000 tests/**/*.mjs",
     "start": "node src/app"
   },
   "keywords": [],
