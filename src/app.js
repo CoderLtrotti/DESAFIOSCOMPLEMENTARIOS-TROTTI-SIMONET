@@ -155,7 +155,7 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
 import passwordRoutes from './Routes/passwordRoutes.js';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUI from 'swagger-ui-express';
-import swaggerOptions from './config/swaggerOptions.js'; 
+import swaggerOptions from './config/swaggerOptions.js'; export default app;
 
 
-export default app;
+
